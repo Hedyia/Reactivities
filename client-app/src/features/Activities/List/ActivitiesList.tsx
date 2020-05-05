@@ -5,12 +5,16 @@ import { IActivity } from "../../../app/models/activity";
 interface IProps {
   actvities: IActivity[];
   onSelectActivity: (id: string) => void;
-  deleteActivity: (id: string) => void;
+  deleteActivity: (e: string, id: string) => void;
+  submitting: boolean;
+  target: string;
 }
 export const ActivitiesList: FC<IProps> = ({
   actvities,
   onSelectActivity,
   deleteActivity,
+  submitting,
+  target,
 }) => {
   return (
     <Segment clearing>
@@ -34,10 +38,14 @@ export const ActivitiesList: FC<IProps> = ({
                   onClick={() => onSelectActivity(activity.id)}
                 />
                 <Button
+                  name={activity.id}
                   floated="right"
                   content="Delete"
                   color="red"
-                  onClick={() => deleteActivity(activity.id)}
+                  loading={target === activity.id && submitting}
+                  onClick={(e) =>
+                    deleteActivity(e.currentTarget.name, activity.id)
+                  }
                 />
                 <Label basic content={activity.category} />
               </Item.Extra>

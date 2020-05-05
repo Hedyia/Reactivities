@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Net.Http.Headers;
 using Persistenece;
 
 namespace API
@@ -32,7 +33,9 @@ namespace API
                 options.AddPolicy(name: MyAllowSpecificOrigins,
                  builder =>
                   {
-                      builder.WithOrigins("http://localhost:3000");
+                      builder.WithOrigins("http://localhost:3000")
+                      .AllowAnyHeader()
+                      .AllowAnyMethod();
                   });
             });
             services.AddMediatR(typeof(List.Handler).Assembly);
@@ -50,9 +53,10 @@ namespace API
 
             // app.UseHttpsRedirection();
 
+            app.UseCors(MyAllowSpecificOrigins);
             app.UseRouting();
 
-            app.UseCors(MyAllowSpecificOrigins);
+            app.UseMiddleware<MaintainCorsHeadersMiddleware>();
 
             app.UseAuthorization();
 
