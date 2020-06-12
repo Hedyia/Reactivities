@@ -1,10 +1,9 @@
-import React, { FC } from "react";
+import React, { FC, useContext } from "react";
 import { Menu, Container, Button } from "semantic-ui-react";
+import ActivityStore from "../app/store/activityStore";
 
-interface IProps {
-  onHandleCreate: () => void;
-}
-export const Navbar: FC<IProps> = ({ onHandleCreate }) => {
+export const Navbar: FC = () => {
+  const activityStore = useContext(ActivityStore);
   return (
     <Menu fixed="top" inverted>
       <Container>
@@ -18,7 +17,7 @@ export const Navbar: FC<IProps> = ({ onHandleCreate }) => {
         </Menu.Item>
         <Menu.Item name="Activities" />
         <Menu.Item>
-          <Button onClick={() => onHandleCreate()} positive>
+          <Button onClick={() => activityStore.openCreateForm()} positive>
             Create Activity
           </Button>
         </Menu.Item>
