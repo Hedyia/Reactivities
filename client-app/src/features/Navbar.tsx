@@ -1,13 +1,12 @@
-import React, { FC, useContext } from "react";
+import React, { FC } from "react";
 import { Menu, Container, Button } from "semantic-ui-react";
-import ActivityStore from "../app/store/activityStore";
+import { Link } from "react-router-dom";
 
 export const Navbar: FC = () => {
-  const activityStore = useContext(ActivityStore);
   return (
     <Menu fixed="top" inverted>
       <Container>
-        <Menu.Item header>
+        <Menu.Item header as={Link} exact to="/">
           <img
             src="/assets/logo.png"
             style={{ marginRight: 10 }}
@@ -15,9 +14,9 @@ export const Navbar: FC = () => {
           />
           Reactivities
         </Menu.Item>
-        <Menu.Item name="Activities" />
+        <Menu.Item name="Activities" as={Link} to="/activities" />
         <Menu.Item>
-          <Button onClick={() => activityStore.openCreateForm()} positive>
+          <Button as={Link} to="/createActivity" positive>
             Create Activity
           </Button>
         </Menu.Item>
